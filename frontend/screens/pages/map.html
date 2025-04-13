@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+</head>
+<body>
+    <div id="map" style="height: 100%; width: 100%;"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        let map;
+
+        window.addEventListener('load', () => {
+            try {
+                map = L.map('map').setView([0, 0], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+                // Define updateMapInHTML as a global function
+                window.updateMapInHTML = (data) => {
+                    console.log("updateMapInHTML called with:", data);
+                    try {
+                        map.eachLayer(layer => {
+                            if (layer instanceof L.Marker || layer instanceof L.Circle || layer instanceof L.Polyline) {
+                                map.removeLayer(layer);
+                            }
+                        });
+
+                        if (data.location) {
+                            map.setView([data.location.latitude, data.location.longitude], 13);
+                            L.circle([data.location.latitude, data.location.longitude], { radius: 3000, fillColor: 'rgba(0,0,0,0.1)' }).addTo(map);
+                        }
+
+                        if (data.activeUsers) {
+                            data.activeUsers.forEach(user => {
+                                if (user && user.coordinates) {
+                                    L.marker([user.coordinates.latitude, user.coordinates.longitude]).addTo(map);
+                                }
+                            });
+                        }
+
+                        if (data.SOSInfo) {
+                            data.SOSInfo.forEach(sos => {
+                                if (sos && sos.coordinates) {
+                                    L.circle([sos.coordinates.latitude, sos.coordinates.longitude], { radius: 120, fillColor: 'rgba(255,0,0,0.05)', color: 'rgba(255,0,0,0.0)' }).addTo(map);
+                                }
+                            });
+                        }
+
+                        if (data.source) {
+                            L.marker([data.source.latitude, data.source.longitude], { icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize: [25, 25] }) }).addTo(map);
+                        }
+
+                        if (data.destination) {
+                            L.marker([data.destination.latitude, data.destination.longitude], { icon: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize: [25, 25] }) }).addTo(map);
+                        }
+
+                        if (data.safeRoute) {
+                            L.polyline(data.safeRoute.map(coord => [coord.latitude, coord.longitude]), { color: 'blue' }).addTo(map);
+                        }
+                    } catch (error) {
+                        console.error("Error in updateMapInHTML:", error);
+                    }
+                };
+            } catch (error) {
+                console.error("Error initializing map:", error);
+            }
+        });
+    </script>
+</body>
+</html>
