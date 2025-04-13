@@ -1,10 +1,8 @@
 # AMUHACKS-4.0_Peaky-Blinders
 
-Here’s a detailed `README.md` file for your community-driven women’s safety app project. It covers the purpose, features, setup instructions, and folder structure based on your shared project tree:
 
----
 
-```markdown
+
 # 🌐 Community-Driven Women’s Safety App
 
 A full-stack application designed to empower women through a real-time community-based safety system. It provides smart SOS alerts, safe route recommendations, and anonymous incident reporting — all while maintaining user privacy and leveraging machine learning for intelligent decision-making.
@@ -106,6 +104,4 @@ MIT License – free to use, modify, and distribute with attribution.
 - [Ganesh S]
 
 For suggestions, issues, or contributions — please raise a pull request or issue on GitHub.
-```
 
----
