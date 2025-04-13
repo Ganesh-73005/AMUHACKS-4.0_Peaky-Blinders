@@ -19,7 +19,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SERVER_URL } from "../config";
 
 // Initialize Gemini API
-const genAI = new GoogleGenerativeAI("AIzaSyCSJWkgLJxmlVyPRxzinCueAXugCxXjM9Q");
+const genAI = new GoogleGenerativeAI("");
 
 const Chatbot = ({ modalVisible, setModalVisible }) => {
     const [inputMessage, setInputMessage] = useState("");
